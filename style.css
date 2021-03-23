@@ -1,0 +1,453 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rammetto+One&display=swap');
+
+:root {
+    --pink-colour: rgba(238,99,215,1);
+    --blue-colour: rgba(57,188,232,1);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    font-family: 'Roboto Condensed', sans-serif;
+    height: 100vh;
+    width: 100vw;
+    background: linear-gradient(25deg, var(--pink-colour) 25%, var(--blue-colour) 75%);
+    z-index: -10;
+    overflow:hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container {
+    max-width: 90vw;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ececec;
+    border-radius: 40px;
+    box-shadow: 5px 10px 20px 10px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+}
+
+.header-wrapper {
+    margin: 10px;
+    padding: 30px;
+    width: 100%;
+    text-align: center;
+}
+
+.header-wrapper h2 {
+    font-family: 'Rammetto One', cursive;
+    font-size: 4.2rem;
+    letter-spacing: 5px;
+    background-image: linear-gradient(25deg, var(--pink-colour) 25%, var(--blue-colour) 75%);
+    background-size: 100%;
+    background-repeat: repeat;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; 
+    -moz-background-clip: text;
+    -moz-text-fill-color: transparent;
+    -webkit-text-stroke: 1px black;
+}
+
+.header-wrapper h4 {
+    font-size: 1.7rem;
+    letter-spacing: 1.5px;
+    line-height: 1.5;
+}
+
+.header-title {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 40px;
+}
+
+.header-title h3 {
+    font-size: 1.5rem;
+}
+
+.game-grid-container {
+    opacity: 0;
+}
+
+.game-grid-container.show {
+    opacity: 1;
+    width: 1200px;
+    max-height: 100%;
+    padding-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+}
+
+.btn {
+    cursor: pointer;
+    padding: 10px 40px;
+    margin-bottom: 30px;
+    border: none;
+    border-radius: 20px;
+    background-color: var(--pink-colour);
+    color: #fff;
+    font-family: 'Rammetto One';
+    font-size: 2.5rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    box-shadow: 2px 2px 10px 2px rgba(0, 0, 0, 0.5);
+    -webkit-text-stroke: 2px black;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background-color:rgba(57,188,232,1) ;
+    transform: scale(1.02);
+    transition: 0.5s;
+}
+
+.btn:focus {
+    outline: none;
+}
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.popup-close {
+    padding: 10px 40px;
+    border: none;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-family: 'Rammetto One';
+    font-size: 2.5rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    box-shadow: 2px 2px 10px 2px rgba(0, 0, 0, 0.5);
+    -webkit-text-stroke: 2px black;
+    background: linear-gradient(25deg, var(--pink-colour) 25%, var(--blue-colour) 75%);
+    background-size: 300% 300%;
+    -webkit-animation: buttonAnimation 1s linear infinite;
+    -moz-animation: buttonAnimation 1s linear infinite;
+    animation: buttonAnimation 1s linear infinite;
+}
+
+.popup-close.win {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 80%;
+    margin-bottom: 50px;
+}
+
+.play-again {
+    display: flex;
+    justify-content: center;
+}
+
+.game-grid {
+    opacity: 0;
+}
+
+.game-grid.show {
+    opacity: 1;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(100px, 1fr));
+    grid-template-rows: repeat(3, minmax(100px, 1fr));
+    gap: 0.5rem;
+    transition: opacity 0.7s ease-in;
+    will-change: opacity;
+}
+
+.card {
+    position: relative;
+    width: 240px;
+    margin: 5px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 1px 4px 5px rgba(0, 0, 0, 0.3);
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    opacity: 0;
+}
+
+.card .fas {
+    position: absolute;
+    font-size: 3rem;
+    opacity: 0.6;
+}
+
+.card.active {
+    padding: 0;
+    border: none;
+    position: relative;
+}
+
+.card.active img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    opacity: 1;
+}
+
+.card.card.active span {
+    position: absolute;
+    bottom: 0.55rem;
+    right: 0.5rem;
+    font-size: 3rem;
+    font-weight: 800;
+    color: #fff;
+    -webkit-text-stroke: 1px black;
+}
+
+.card.active.disabled {
+    pointer-events: none;
+}
+
+@-webkit-keyframes buttonAnimation {
+    0%{background-position:0% 49%}
+    50%{background-position:100% 52%}
+    100%{background-position:0% 49%}
+}
+@-moz-keyframes buttonAnimation {
+    0%{background-position:0% 49%}
+    50%{background-position:100% 52%}
+    100%{background-position:0% 49%}
+}
+@keyframes buttonAnimation {
+    0%{background-position:0% 49%}
+    50%{background-position:100% 52%}
+    100%{background-position:0% 49%}
+}
+
+@media (max-width: 1300px) {
+    .card {
+        width: 230px;
+    }
+
+    .header-wrapper h2 {
+        font-size: 3.5rem;
+    }
+}
+
+@media (max-width: 1240px) {
+    .card {
+        width: 200px;
+    }
+}
+
+@media (max-width: 1100px) {
+    .game-grid.show {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .header-wrapper {
+        padding: 15px;
+    }
+
+    .header-wrapper h2 {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 928px) {
+    .header-wrapper h2 {
+        font-size: 2.5rem;
+    }
+
+    .card {
+        width: 180px;
+    }
+}
+
+@media (max-width: 800px) {
+    html,
+    body {
+        overflow: scroll;
+        height: auto;
+    }
+    .game-grid.show {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .container {
+        width: 90vw;
+        margin: 10px 0;
+    }
+
+    .header-wrapper h2 {
+        font-size: 3rem;
+    }
+
+    .header-title h3 {
+        font-size: 1.3rem;
+    }
+
+    .card {
+        width: 280px;
+    }
+}
+
+@media (max-width: 745px) {
+
+    .header-wrapper h2 {
+        font-size: 2.5rem;
+    }
+
+    .card {
+        width: 250px;
+    }
+
+    .popup-close.win {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 670px) {
+    .card {
+        width: 200px;
+    }
+}
+
+@media (max-width: 610px) {
+
+    .popup-close.win {
+        font-size: 1.8rem;
+    }
+
+    .play-again .btn {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 550px) {
+
+    .game-grid.show {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .card {
+        width: 180px;
+    }
+
+    .popup-close {
+        font-size: 2rem;
+    }
+
+    .popup-close.win {
+        font-size: 1.5rem;
+        width: 90%;
+    }
+
+    .play-again .btn {
+        font-size: 1.8rem;
+        width: 80%;
+    }
+}
+
+@media (max-width: 450px) {
+
+    .card {
+        width: 150px;
+    }
+
+    .popup-close {
+        font-size: 1.5rem;
+    }
+
+    .popup-close.win {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 390px) {
+
+    .header-wrapper h2 {
+        font-size: 2rem;
+    }
+
+    .card {
+        width: 150px;
+    }
+
+    .popup-close.win {
+        font-size: 1.2rem;
+    }
+
+    .play-again .btn {
+        font-size: 1.5rem;
+        width: 90%;
+        padding: 5px;
+    }
+}
+
+@media (max-width: 370px) {
+    .game-grid.show {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    .card {
+        width: 300px;
+    }
+
+    .popup-close.win {
+        font-size: 1rem;
+    }
+
+    .play-again .btn {
+        font-size: 1.5rem;
+        width: 100%;
+    }
+}
+
+@media (max-width: 320px) {
+
+    .card {
+        width: 260px;
+    }
+
+    .popup-close.win {
+        font-size: 1rem;
+        letter-spacing: 2px;
+    }
+
+    .play-again .btn {
+        font-size: 1.5rem;
+        width: 100%;
+    }
+}
+
+@media (max-width: 280px) {
+ 
+    .card {
+        width: 230px;
+    }
+}
