@@ -1,5 +1,3 @@
-<div class="container">
-    <div class="header-wrapper">
-        <h2>Cat Them If You Can!</h2>
-    </div>
-</div>
+<h1>Cat Them If You Can!</h1>
+<h2>Memory Card Game</h2>
+<p>This is the first HTML, CSS and JS game that I've built.</p>
